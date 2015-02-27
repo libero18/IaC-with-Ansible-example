@@ -1,0 +1,19 @@
+---
+- hosts:        127.0.0.1
+  connection:   local
+  user:         vagrant
+  sudo:         yes
+  tasks:
+
+  - name: install the 'Development tools'
+    yum:  name="@Development tools" state=latest
+
+  - name: install the latest version of Apache
+    yum: name=httpd state=latest
+
+  - name: start service httpd, if not running
+    service: name=httpd state=started
+
+  - name: enable service httpd, and not touch the running state
+    service: name=httpd enabled=yes
+

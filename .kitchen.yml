@@ -1,0 +1,24 @@
+---
+driver:
+  name: vagrant
+  provision: true
+  vagrantfiles:
+    - ./Vagrantfile.rb
+  box: hansode/centos-6.6-x86_64
+  vm_hostname: kitchen-vagrant
+  customize:
+    cpuexecutioncap: 90
+    memory: 2048
+
+provisioner:
+  name: ansible_playbook
+
+platforms:
+  - name: centos6
+
+suites:
+  - name: provisioning
+    provisioner:
+      hosts: kitchen-vagrant
+      playbook: provisioning.yml
+
