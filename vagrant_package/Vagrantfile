@@ -1,0 +1,23 @@
+Vagrant.configure('2') do |c|
+
+  ## Vagrant Box Base Image
+  c.vm.box = "hansode/centos-6.6-x86_64"
+
+  ## Plugin
+  if Vagrant.has_plugin?("vagrant-omnibus")
+    c.omnibus.chef_version = :latest
+  end
+
+  ## Provision
+  c.vm.provision "shell",inline: "yum update -y && yum install -y libyaml"
+  c.vm.provision "shell",inline: "/etc/init.d/vboxadd setup"
+  c.vm.provision "shell",inline: "rpm -ivh http://ftp.riken.jp/Linux/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+  c.vm.provision "shell",inline: "yum install -y ansible"
+  c.vm.provision "shell",inline: "yum clean all"
+
+  c.vm.provision "shell",inline: "sh -c 'BUSSER_ROOT=\"/tmp/busser\" GEM_HOME=\"/tmp/busser/gems\" GEM_PATH=\"/tmp/busser/gems\" GEM_CACHE=\"/tmp/busser/gems/cache\" ; export BUSSER_ROOT GEM_HOME GEM_PATH GEM_CACHE; if ! sudo -E /opt/chef/embedded/bin/gem list busser -i >/dev/null; then sudo -E /opt/chef/embedded/bin/gem install busser --no-rdoc --no-ri; fi; gem_bindir=`/opt/chef/embedded/bin/ruby -rrubygems -e \"puts Gem.bindir\"`; sudo -E ${gem_bindir}/busser setup; sudo -E /tmp/busser/bin/busser plugin install busser-rspec'"
+  c.vm.provision "shell",inline: "echo -e \"source 'https://rubygems.org'\ngem 'serverspec'\" > ./Gemfile"
+  c.vm.provision "shell",inline: "PATH=/sbin:/bin:/usr/sbin:/usr/bin:/tmp/busser/gems/bin; bundle install --local || bundle install"
+  c.vm.provision "shell",inline: "rm -f ./Gemfile"
+
+end

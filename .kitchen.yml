@@ -4,7 +4,7 @@ driver:
   provision: true
   vagrantfiles:
     - ./Vagrantfile.rb
-  box: hansode/centos-6.6-x86_64
+  box: libero18/test-kitchen
   vm_hostname: kitchen-vagrant
   customize:
     cpuexecutioncap: 90

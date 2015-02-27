@@ -16,4 +16,5 @@
 !/test/integration/provisioning/rspec/
 !/test/integration/provisioning/rspec/spec/
 !/test/integration/provisioning/rspec/spec/localhost/
+!/vagrant_package/
 
