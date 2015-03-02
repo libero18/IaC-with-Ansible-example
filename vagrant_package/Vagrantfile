@@ -14,9 +14,6 @@ Vagrant.configure('2') do |c|
   c.vm.provision "shell",inline: "yum install -y ansible"
   c.vm.provision "shell",inline: "yum clean all"
 
-  c.vm.provision "shell",inline: "sh -c 'BUSSER_ROOT=\"/tmp/busser\" GEM_HOME=\"/tmp/busser/gems\" GEM_PATH=\"/tmp/busser/gems\" GEM_CACHE=\"/tmp/busser/gems/cache\" ; export BUSSER_ROOT GEM_HOME GEM_PATH GEM_CACHE; if ! sudo -E /opt/chef/embedded/bin/gem list busser -i >/dev/null; then sudo -E /opt/chef/embedded/bin/gem install busser --no-rdoc --no-ri; fi; gem_bindir=`/opt/chef/embedded/bin/ruby -rrubygems -e \"puts Gem.bindir\"`; sudo -E ${gem_bindir}/busser setup; sudo -E /tmp/busser/bin/busser plugin install busser-rspec'"
-  c.vm.provision "shell",inline: "echo -e \"source 'https://rubygems.org'\ngem 'serverspec'\" > ./Gemfile"
-  c.vm.provision "shell",inline: "PATH=/sbin:/bin:/usr/sbin:/usr/bin:/tmp/busser/gems/bin; bundle install --local || bundle install"
-  c.vm.provision "shell",inline: "rm -f ./Gemfile"
+  c.vm.provision "shell",inline: "sh -c 'BUSSER_ROOT=\"/tmp/busser\" GEM_HOME=\"/tmp/busser/gems\" GEM_PATH=\"/tmp/busser/gems\" GEM_CACHE=\"/tmp/busser/gems/cache\" ; export BUSSER_ROOT GEM_HOME GEM_PATH GEM_CACHE; if ! sudo -E /opt/chef/embedded/bin/gem list busser -i >/dev/null; then sudo -E /opt/chef/embedded/bin/gem install busser serverspec --no-rdoc --no-ri; fi; gem_bindir=`/opt/chef/embedded/bin/ruby -rrubygems -e \"puts Gem.bindir\"`; sudo -E ${gem_bindir}/busser setup; sudo -E /tmp/busser/bin/busser plugin install busser-rspec'"
 
 end
